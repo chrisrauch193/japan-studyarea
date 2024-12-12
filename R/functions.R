@@ -92,7 +92,7 @@ aggregate_areas <- function(areas) {
   # Ensure all areas have the same CRS
   first_crs <- st_crs(valid_areas[[1]])
   valid_areas <- lapply(valid_areas, function(x) st_transform(x, first_crs))
-
+  
   # Prepare a list of data frames with a unified set of columns
   unified_areas <- lapply(valid_areas, function(area) {
     # Ensure the geometry is valid
