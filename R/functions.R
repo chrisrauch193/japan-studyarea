@@ -5,6 +5,9 @@ library(mregions2)
 
 # Helper function to transform and simplify geometries
 prepare_geom <- function(geom) {
+  print("WWJHWEJKW")
+  print(geom)
+  print("adjsalsdj")
   geom |>
     st_make_valid() |>
     st_transform(crs = st_crs(4326)) |>
@@ -63,12 +66,12 @@ mr_tidy <- function(res, source_name = NULL) {
     stop("The result from gaz_search does not contain a valid geometry.")
   }
   
+  print(geom)
+  
   # Add a source column if provided
   if (!is.null(source_name)) {
     geom$source <- source_name
   }
-  
-  print(geom)
   
   # Select necessary columns and rename for consistency
   # Only select columns that are likely to be common across all records
@@ -76,8 +79,6 @@ mr_tidy <- function(res, source_name = NULL) {
     select(MRGID, preferredGazetteerName, latitude, longitude, status, accepted, source) |>
     rename(name = preferredGazetteerName) |>
     prepare_geom()
-  
-  print(data)
   
   return(data)
 }
@@ -96,12 +97,13 @@ aggregate_areas <- function(areas) {
   first_crs <- st_crs(valid_areas[[1]])
   valid_areas <- lapply(valid_areas, function(x) st_transform(x, first_crs))
   
-  print(valid_areas)
-  
   # Prepare a list of data frames with a unified set of columns
   unified_areas <- lapply(valid_areas, function(area) {
+    # Ensure the geometry is valid
+    area <- st_make_valid(area)
+    
     # Ensure the presence of all required columns, add missing with NA
-    required_cols <- c("mrgid", "name", "latitude", "longitude", "status", "accepted", "source", "geometry")
+    required_cols <- c("mrgid", "name", "latitude", "longitude", "source", "geometry")
     for (col in required_cols) {
       if (!col %in% names(area)) {
         area[[col]] <- NA
