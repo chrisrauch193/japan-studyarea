@@ -20,13 +20,15 @@ list(
       st_bbox(c(xmin = 115, xmax = 155, ymin = 0, ymax = 45), crs = st_crs(4326))
     }
   ),
+  
   # --- Ogasawara Islands ---
   tar_target(
     name = ogasawara_islands,
     command = {
       # Retrieve Ogasawara Islands from Marine Regions
       gaz_search("Ogasawara", like = TRUE) |>
-        gaz_geometry()
+        gaz_geometry() |>
+        mr_tidy(source_name = "Ogasawara Islands")
     }
   ),
   tar_target(
@@ -36,6 +38,7 @@ list(
       check_region_in_bbox(ogasawara_islands, bounding_box)
     }
   ),
+  
   # --- Izu Islands ---
   tar_target(
     name = izu_islands,
@@ -48,7 +51,8 @@ list(
         izu_islands <- izu_islands[izu_islands$status != "deleted", ]
         if (nrow(izu_islands) > 0) {
           # Return the geometry for the valid records
-          return(gaz_geometry(izu_islands))
+          return(gaz_geometry(izu_islands) |>
+                   mr_tidy(source_name = "Izu Islands"))
         } else {
           warning("All found records for Izu Islands are deleted.")
           return(NULL)
@@ -66,37 +70,18 @@ list(
       check_region_in_bbox(izu_islands, bounding_box)
     }
   ),
+  
   # --- Ryukyu Archipelago ---
   tar_target(
     name = ryukyu_archipelago,
     command = {
       # Retrieve Ryukyu Archipelago from Marine Regions
       gaz_search("Ryukyu", like = TRUE) |>
-        gaz_geometry()
+        gaz_geometry() |>
+        mr_tidy(source_name = "Ryukyu Archipelago")
     }
   ),
-  # # --- Japan EEZ ---
-  # tar_target(
-  #   name = japan_eez,
-  #   command = {
-  #     # # Retrieve Japan's EEZ from Marine Regions
-  #     # japan_eez <- gaz_search(x = "Japan", typeid = 70) |>
-  #     #   dplyr::filter(grepl("Exclusive Economic", preferredGazetteerName, ignore.case = TRUE)) |>
-  #     #   dplyr::filter(status == "standard")
-  #     # 
-  #     # # Check if any records were found
-  #     # if (nrow(japan_eez) == 0) {
-  #     #   stop("No records found for Japan's EEZ.")
-  #     # }
-  #     # 
-  #     # # Return the geometry for Japan's EEZ
-  #     # gaz_geometry(japan_eez$mrgid)
-  #     
-  #     japan_eez <- mregions2::gaz_search("Japan") %>%
-  #       dplyr::filter(placeType %in% c("EEZ", "Overlapping claim") & status == "standard")  |>
-  #       gaz_geometry()
-  #   }
-  # ),
+  
   # --- Japan EEZ ---
   tar_target(
     name = japan_eez,
@@ -119,6 +104,7 @@ list(
         mr_tidy(source_name = "Japan EEZ")
     }
   ),
+  
   # --- Taiwan ---
   tar_target(
     name = taiwan,
@@ -131,7 +117,8 @@ list(
         taiwan <- taiwan[taiwan$status != "deleted", ]
         if (nrow(taiwan) > 0) {
           # Return the geometry for the valid records
-          return(gaz_geometry(taiwan))
+          return(gaz_geometry(taiwan) |>
+                   mr_tidy(source_name = "Taiwan"))
         } else {
           warning("All found records for Taiwan are deleted.")
           return(NULL)
@@ -142,42 +129,50 @@ list(
       }
     }
   ),
+  
   # --- Coral Reefs (WCMC Polygons) ---
-  tar_target(
-    name = coral_reefs_zip,
-    command = {
-      # Download global coral reef data (from UNEP-WCMC)
-      # Manually download from https://data.unep-wcmc.org/datasets/1 to the data folder
-      "data/WCMC008_CoralReefs2021_v4_1.zip"
-    },
-    format = "file"
-  ),
-  tar_target(
-    name = coral_reefs_file,
-    command = {
-      unzip(coral_reefs_zip, exdir = "data")
-      # Assuming the shapefile is directly inside the zip, otherwise adjust the path
-      file.path("data", "WCMC008_CoralReef2021_Py_v4_1.shp")
-    },
-    format = "file"
-  ),
   tar_target(
     name = coral_reefs,
     command = {
-      # Read and clip coral reef data
-      read_clip_coralreefs(coral_reefs_file, bounding_box)
+      # Read the shapefile
+      coral_reefs_all <- st_read("data/WCMC008_CoralReef2021_Py_v4_1.shp")
+      
+      # Make the geometries valid
+      coral_reefs_all <- st_make_valid(coral_reefs_all)
+      
+      # Transform to the same CRS as the bounding box
+      coral_reefs_all <- st_transform(coral_reefs_all, st_crs(bounding_box))
+      
+      # Clip to the bounding box
+      coral_reefs_clip <- st_intersection(coral_reefs_all, st_as_sfc(bounding_box))
+      
+      coral_reefs_clip$mrgid <- NA
+      coral_reefs_clip$name <- "Coral Reef"
+      coral_reefs_clip$latitude <- NA
+      coral_reefs_clip$longitude <- NA
+      coral_reefs_clip$source <- "UNEP-WCMC"
+      
+      # Select and rename columns to match other datasets
+      coral_reefs_clip <- coral_reefs_clip |>
+        select(mrgid, name, latitude, longitude, source, geometry)
+      
+      # Simplify the geometry
+      coral_reefs_clip <- st_simplify(coral_reefs_clip, dTolerance = 0.01)
+      
+      return(coral_reefs_clip)
     }
   ),
+  
   # --- Aggregate Layers ---
   tar_target(
     name = study_area,
     command = {
       # Combine all layers
-      # study_area <- aggregate_areas(list(japan_eez, ryukyu_archipelago, taiwan, izu_islands, ogasawara_islands, coral_reefs))
-      study_area <- aggregate_areas(list(japan_eez, ryukyu_archipelago, taiwan, izu_islands, ogasawara_islands))
+      study_area <- aggregate_areas(list(japan_eez, ryukyu_archipelago, taiwan, izu_islands, ogasawara_islands, coral_reefs))
       study_area
     }
   ),
+  
   # --- Clip to Bounding Box ---
   tar_target(
     name = study_area_clip,
@@ -186,6 +181,7 @@ list(
       st_intersection(study_area, st_as_sfc(bounding_box))
     }
   ),
+  
   # --- Save Study Area ---
   tar_target(
     name = save_study_area,
@@ -196,6 +192,7 @@ list(
     },
     format = "file"
   ),
+  
   # --- Create and Save Map ---
   tar_target(
     name = study_area_map,
@@ -212,6 +209,7 @@ list(
     },
     format = "file"
   ),
+  
   # --- Generate Report (Optional) ---
   tar_render(report, "report.Rmd")
 )

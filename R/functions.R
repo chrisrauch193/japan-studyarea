@@ -21,30 +21,6 @@ check_region_in_bbox <- function(region, bounding_box) {
   }
 }
 
-# Function to read and clip coral reefs
-read_clip_coralreefs <- function(coral_reefs_path, bounding_box) {
-  # Read coral reefs
-  coral_reefs <- st_read(coral_reefs_path)
-  
-  # Make sure the geometries are valid
-  coral_reefs <- st_make_valid(coral_reefs)
-  
-  # Clip to bounding box
-  coral_reefs_clipped <- st_intersection(coral_reefs, st_as_sfc(bounding_box))
-  
-  # Select only POLYGON features
-  coral_reefs_polygons <- coral_reefs_clipped |>
-    filter(st_geometry_type(geometry) %in% c("POLYGON", "MULTIPOLYGON"))
-  
-  # Prepare geometry
-  coral_reefs_prepared <- coral_reefs_polygons |>
-    prepare_geom()
-  
-  return(coral_reefs_prepared)
-}
-
-# ... (other functions remain the same)
-
 # Function to tidy up mregions2 results, specifically for gaz_search
 mr_tidy <- function(res, source_name = NULL) {
   # Check if the result is an sf object and convert it to sf if necessary
@@ -72,8 +48,9 @@ mr_tidy <- function(res, source_name = NULL) {
   # Select necessary columns and rename for consistency
   # Only select columns that are likely to be common across all records
   data <- geom |>
-    select(MRGID, preferredGazetteerName, latitude, longitude, status, accepted, source) |>
-    rename(name = preferredGazetteerName) |>
+    select(any_of(c("MRGID", "preferredGazetteerName", "latitude", "longitude", "status", "accepted", "source", "geometry"))) |>
+    rename_with(~ tolower(gsub("([a-z])([A-Z])", "\\1_\\2", .x))) |> # Convert column names to snake_case
+    rename(name = preferred_gazetteer_name) |>
     prepare_geom()
   
   return(data)
@@ -93,22 +70,23 @@ aggregate_areas <- function(areas) {
   first_crs <- st_crs(valid_areas[[1]])
   valid_areas <- lapply(valid_areas, function(x) st_transform(x, first_crs))
   
-  # Prepare a list of data frames with a unified set of columns
+  # 1. Identify all unique column names across all data frames
+  all_colnames <- unique(unlist(lapply(valid_areas, names)))
+  
+  # 2. Ensure each data frame has all identified columns
   unified_areas <- lapply(valid_areas, function(area) {
     # Ensure the geometry is valid
     area <- st_make_valid(area)
     
-    # Ensure the presence of all required columns, add missing with NA
-    required_cols <- c("mrgid", "name", "latitude", "longitude", "source", "geometry")
-    for (col in required_cols) {
-      if (!col %in% names(area)) {
-        area[[col]] <- NA
-      }
+    # Add missing columns with NA values
+    missing_cols <- setdiff(all_colnames, names(area))
+    for (col in missing_cols) {
+      area[[col]] <- NA
     }
     
-    # Select only the required columns
-    area |>
-      select(all_of(required_cols))
+    # Reorder columns to match the order of all_colnames
+    area <- area[, all_colnames]
+    return(area)
   })
   
   # Combine all layers

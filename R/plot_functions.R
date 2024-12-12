@@ -7,7 +7,7 @@ plot_study_area <- function(study_area, bounding_box, coral_reefs) {
     # Study area
     geom_sf(data = study_area, fill = "lightblue", color = "steelblue") +
     # Coral reefs
-    geom_sf(data = coral_reefs, fill = "coral", color = "coral") +
+    geom_sf(data = coral_reefs, fill = "coral", color = "coral", alpha = 0.5) + # Added alpha for transparency
     # Bounding box
     geom_sf(data = st_as_sfc(bounding_box), fill = NA, color = "red", linetype = "dashed") +
     # Coordinate limits and labels
