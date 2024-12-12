@@ -1,0 +1,49 @@
+---
+title: "Japan, Kuroshio Current, and Ryukyu Archipelago Study Area Report"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(targets)
+library(sf)
+```
+
+## Introduction
+
+This report documents the definition and creation of a study area encompassing Japan, the Ryukyu Archipelago, the Kuroshio Current region, Taiwan, the Ogasawara Islands, the Izu Islands, and coral reefs.
+
+## Bounding Box
+
+The study area is defined by the following bounding box:
+
+```{r bounding_box}
+tar_read(bounding_box)
+```
+
+## Data Layers
+
+The following data layers were used to create the study area:
+
+-   **Japan EEZ:** Exclusive Economic Zone of Japan.
+-   **Ryukyu Archipelago:** The Ryukyu Archipelago region.
+-   **Taiwan:**  The Taiwan region
+-   **Ogasawara Islands:** The Ogasawara Islands, checked to be within the bounding box.
+-   **Izu Islands:** The Izu Islands, checked to be within the bounding box.
+-   **Coral Reefs:** Coral reef data from UNEP-WCMC (polygon data), clipped to the bounding box.
+
+## Study Area Map
+
+The final study area was created by combining these layers and clipping them to the bounding box.
+
+```{r study_area_map, out.width='100%'}
+tar_read(study_area_map)
+```
+
+## Data Output
+
+The study area was saved as a GeoPackage file:
+
+```{r data_output}
+tar_read(save_study_area)
+```
