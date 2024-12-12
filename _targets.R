@@ -123,26 +123,21 @@ list(
   tar_target(
     name = taiwan,
     command = {
-      # Retrieve Taiwan from Marine Regions, handling deleted records
-      taiwan <- gaz_search(name = "Taiwan", like = TRUE) |>
-        gaz_add_geometry() |>
-        dplyr::filter(status != "deleted")
+      # Retrieve Taiwan from Marine Regions
+      taiwan <- gaz_search("Taiwan", like = TRUE)
       
-      # Check if any records were found
+      # Check if any records were found and have status "deleted"
       if (nrow(taiwan) > 0) {
-        # Clean the geometry:
-        # 1. Force validity
-        taiwan <- st_make_valid(taiwan)
-        
-        # 2. Remove small sliver polygons (this can often fix degenerate edges)
-        #    Set a very small area threshold (adjust if needed)
-        taiwan <- st_union(taiwan) # Combine into a single multipolygon
-        
-        
-        # 3. Return the geometry with source information
-        return(taiwan |> mr_tidy(source_name = "Taiwan"))
+        taiwan <- taiwan[taiwan$status != "deleted", ]
+        if (nrow(taiwan) > 0) {
+          # Return the geometry for the valid records
+          return(gaz_geometry(taiwan))
+        } else {
+          warning("All found records for Izu Islands are deleted.")
+          return(NULL)
+        }
       } else {
-        warning("No valid records found for Taiwan.")
+        warning("No records found for Izu Islands.")
         return(NULL)
       }
     }

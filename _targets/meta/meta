@@ -1,11 +1,11 @@
 name|type|data|command|depend|seed|path|time|size|bytes|format|repository|iteration|parent|children|seconds|warnings|error
-.Random.seed|object|35527f6171ffca3b|||||||||||||||
+.Random.seed|object|72be872dc8c2a9cb|||||||||||||||
 aggregate_areas|function|e8e53e6be621a1a1|||||||||||||||
 bounding_box|stem|69cfefb628788d4f|34d4567faf26e545|2c530c1562a7fbd1|669285592||t20069.0711411483s|4505e5ed09214b5a|563|rds|local|vector|||0||
 check_region_in_bbox|function|34eb91f3a2bcca84|||||||||||||||
 coral_reefs|stem|164ba9f0cabfaa7e|8c1959dbf3cab6e4|cfa9fe28158ab2eb|1752534479||t20069.0793990662s|f91fd2fe8d732f0c|45750893|rds|local|vector|||90.047|attribute variables are assumed to be spatially constant throughout all geometries|
-coral_reefs_file|stem|2cb4e81d1b9f7736|d14b0ed2a5e23d80|65c6459d83a6cc8c|-417062531|data/WCMC008_CoralReef2021_Py_v4_1.shp|t20069.0720048032s|9414c0e63628e7e1|314553292|file|local|vector|||3.545||
-coral_reefs_zip|stem|f5c74655ebdf3d70|5adbe3dbd123e467|2c530c1562a7fbd1|-1521294624|data/WCMC008_CoralReefs2021_v4_1.zip|t20068.991061717s||217895376|file|local|vector|||||_paths_ missing files dataWCMC008_CoralReefs2021_v4_1.zip
+coral_reefs_file|stem|2cb4e81d1b9f7736|d14b0ed2a5e23d80|65c6459d83a6cc8c|-417062531|data/WCMC008_CoralReef2021_Py_v4_1.shp|t19403.0092824074s|9414c0e63628e7e1|314553292|file|local|vector|||3.545||
+coral_reefs_zip|stem|f5c74655ebdf3d70|5adbe3dbd123e467|2c530c1562a7fbd1|-1521294624|data/WCMC008_CoralReefs2021_v4_1.zip|t20069.1641883545s|d93057db99c33d4f|217895376|file|local|vector|||0||
 is_izu_in_bbox|stem|b9a6ec288604c0ea|a67aa6db1a5874b1|f1f54f1f8a4b06fa|1514370350||t20069.0720257393s|ba41eabafff2540f|48|rds|local|vector|||0.456||
 is_ogasawara_in_bbox|stem|b9a6ec288604c0ea|088a85791307d1db|ebaa0b0d0de79085|-807612170||t20069.0720319241s|ba41eabafff2540f|48|rds|local|vector|||0.523||
 izu_islands|stem|0c9e06af728dd587|18467574f569c0d0|2c530c1562a7fbd1|1763643628||t20069.071482535s|57f0d7e1317b69f2|32153|rds|local|vector|||29.489||
@@ -15,11 +15,11 @@ ogasawara_islands|stem|605e7695c176eed6|51e0f464517df333|2c530c1562a7fbd1|198787
 plot_study_area|function|95f847128143f754|||||||||||||||
 prepare_geom|function|0c64ea7521033762|||||||||||||||
 read_clip_coralreefs|function|35f6102477fa20fe|||||||||||||||
-report|stem|0f728cd52350daa2|4eab930afb874996|77ce7fb77f162ea1|787668912|report.html*report.Rmd|t20069.146544145s|eb72df86eee73fee|825012|file|local|vector|||26.429||
+report|stem|f1855eb96c1e6c46|4eab930afb874996|e4112f0f49b2b798|787668912|report.html*report.Rmd|t20069.1709943345s|bc926fdcd1eb98a6|758444|file|local|vector|||9.745||
 ryukyu_archipelago|stem|46462c34131aea6b|62974780eebfdacb|2c530c1562a7fbd1|1975910770||t20069.0911321264s|10d2c1c8133423f4|1571|rds|local|vector|||10.295||
-save_map|stem|52c4b383170d834d|abdb3d00978bf86a|daadc078e57ec230|-1668319320|output/study_area.png|t20069.1465836191s|f3bd3bdec1f934c0|259191|file|local|vector|||3.385||
-save_study_area|stem|52d762277324b2fe|51e9eb277238e7e5|946a1d0f07708eae|-146398387|data/output.gpkg|t20069.1459649796s|806ddaf22ac7ec50|1560576|file|local|vector|||0.034||
-study_area|stem|aa7500df62ba3f09|4ba856e512d49645|3c2d1f5c11b8ab2d|-822575283||t20069.145960257s||1236668|rds|local|vector|||0.444||Loop 15 is not valid Edge 2 is degenerate duplicate vertex
-study_area_clip|stem|bc68899354844ccc|dd6faa839a6f2039|3b3788a414d3c027|-404717505||t20069.1459645672s|adf389ccaf4d4095|1180549|rds|local|vector|||0.294||
-study_area_map|stem|71391c2910945546|58cfc00012ad3d4f|8405aa48d4cb178c|2001279192||t20069.1462312983s|ab3628d4c02c8e66|281712880|rds|local|vector|||0.011||
-taiwan|stem|79b9192d0e7f9b31|639d618b29d46ab1|2c530c1562a7fbd1|-2121041077||t20069.0719639448s|9eaf2977b79ba041|342302|rds|local|vector|||18.196||
+save_map|stem|5e33e4f064a9ea8a|abdb3d00978bf86a|36a37f50d0f739bf|-1668319320|output/study_area.png|t20069.1710363869s|14694cc64f49c1a2|147598|file|local|vector|||3.608||
+save_study_area|stem|db53d06d22c866d8|51e9eb277238e7e5|0347f588d969781f|-146398387|data/output.gpkg|t20069.1706214858s|cf246076235b991e|98304|file|local|vector|||0.025||
+study_area|stem|3071e256f93ff79c|4ba856e512d49645|3c2d1f5c11b8ab2d|-822575283||t20069.1706209372s||2304|rds|local|vector|||0.402||Loop 15 is not valid Edge 2 is degenerate duplicate vertex
+study_area_clip|stem|7fffc6e5812443c6|dd6faa839a6f2039|fa11b7aa7a645db9|-404717505||t20069.1706211518s|a34ad12d7422e6dd|2159|rds|local|vector|||0.006||
+study_area_map|stem|e9e0377e1733615a|58cfc00012ad3d4f|651b76ff83ea0acd|2001279192||t20069.1708737089s|1942024060f1b452|274631589|rds|local|vector|||0.012||
+taiwan|stem|79b9192d0e7f9b31|639d618b29d46ab1|2c530c1562a7fbd1|-2121041077||t20069.1688654992s|9eaf2977b79ba041|342302|rds|local|vector|||21.401||
