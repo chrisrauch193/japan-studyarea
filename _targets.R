@@ -123,37 +123,23 @@ list(
   tar_target(
     name = taiwan,
     command = {
-      gaz_search("Taiwan", like = TRUE) |>
-        gaz_geometry()
-      # # Retrieve Taiwan from Marine Regions, handling deleted records
-      # taiwan <- gaz_search("Taiwan", like = TRUE) |>
-      #   dplyr::filter(status != "DELETED")  |>
-      #   gaz_geometry()
-      # 
-      # 
-      # print(taiwan)
-      # 
-      # # Check if any records were found
-      # if (nrow(taiwan) > 0) {
-      #   # Clean the geometry:
-      #   # 1. Force validity
-      #   taiwan <- st_make_valid(taiwan)
-      #   
-      #   # 2. Remove small sliver polygons (this can often fix degenerate edges)
-      #   #    Set a very small area threshold (adjust if needed)
-      #   taiwan <- st_union(taiwan) # Combine into a single multipolygon
-      #   
-      #   print("IM HERE")
-      #   print(taiwan)
-      #   print("Imgone")
-      #   
-      #   
-      #   # 3. Return the geometry with source information
-      #   return(taiwan |> mr_tidy(source_name = "Taiwan"))
-      # } else {
-      #   warning("No valid records found for Taiwan.")
-      #   return(NULL)
-      # }
+      # Retrieve Taiwan from Marine Regions, handling deleted records
+      taiwan <- gaz_search("Taiwan")
+      
+      # Check if any records were found and have status "deleted"
+      if (nrow(taiwan) > 0) {
+        taiwan <- taiwan[taiwan$status != "deleted", ]
+        if (nrow(taiwan) > 0) {
+          # Return the geometry for the valid records
+          return(gaz_geometry(taiwan))
+        } else {
+          warning("All found records for Taiwan are deleted.")
+          return(NULL)
+        }
+      } else {
+        warning("No records found for Taiwan")
+        return(NULL)
+      }
     }
   ),
   # --- Coral Reefs (WCMC Polygons) ---
@@ -188,7 +174,7 @@ list(
     command = {
       # Combine all layers
       # study_area <- aggregate_areas(list(japan_eez, ryukyu_archipelago, taiwan, izu_islands, ogasawara_islands, coral_reefs))
-      study_area <- aggregate_areas(list(taiwan))
+      study_area <- aggregate_areas(list(japan_eez, ryukyu_archipelago, taiwan, izu_islands, ogasawara_islands))
       study_area
     }
   ),

@@ -1,9 +1,9 @@
 name|type|data|command|depend|seed|path|time|size|bytes|format|repository|iteration|parent|children|seconds|warnings|error
-.Random.seed|object|cc566e7136e39ff7|||||||||||||||
-aggregate_areas|function|eda29c5a18e9fa46|||||||||||||||
+.Random.seed|object|1446673a482305c0|||||||||||||||
+aggregate_areas|function|5776c71509161355|||||||||||||||
 bounding_box|stem|69cfefb628788d4f|34d4567faf26e545|2c530c1562a7fbd1|669285592||t20069.0711411483s|4505e5ed09214b5a|563|rds|local|vector|||0||
 check_region_in_bbox|function|34eb91f3a2bcca84|||||||||||||||
-coral_reefs|stem|164ba9f0cabfaa7e|8c1959dbf3cab6e4|cfa9fe28158ab2eb|1752534479||t20069.0793990662s|f91fd2fe8d732f0c|45750893|rds|local|vector|||90.047|attribute variables are assumed to be spatially constant throughout all geometries|
+coral_reefs|stem|164ba9f0cabfaa7e|8c1959dbf3cab6e4|a4f4c2fe1976b5fc|1752534479||t20069.3973063757s|f91fd2fe8d732f0c|45750893|rds|local|vector|||88.367|attribute variables are assumed to be spatially constant throughout all geometries|
 coral_reefs_file|stem|2cb4e81d1b9f7736|d14b0ed2a5e23d80|65c6459d83a6cc8c|-417062531|data/WCMC008_CoralReef2021_Py_v4_1.shp|t19403.0092824074s|9414c0e63628e7e1|314553292|file|local|vector|||3.545||
 coral_reefs_zip|stem|f5c74655ebdf3d70|5adbe3dbd123e467|2c530c1562a7fbd1|-1521294624|data/WCMC008_CoralReefs2021_v4_1.zip|t20069.1641883545s|d93057db99c33d4f|217895376|file|local|vector|||0||
 is_izu_in_bbox|stem|b9a6ec288604c0ea|a67aa6db1a5874b1|f1f54f1f8a4b06fa|1514370350||t20069.0720257393s|ba41eabafff2540f|48|rds|local|vector|||0.456||
@@ -15,11 +15,11 @@ ogasawara_islands|stem|605e7695c176eed6|51e0f464517df333|2c530c1562a7fbd1|198787
 plot_study_area|function|95f847128143f754|||||||||||||||
 prepare_geom|function|cf64f54274c17df9|||||||||||||||
 read_clip_coralreefs|function|65a340dfbc191181|||||||||||||||
-report|stem|f1855eb96c1e6c46|4eab930afb874996|e4112f0f49b2b798|787668912|report.html*report.Rmd|t20069.1709943345s|bc926fdcd1eb98a6|758444|file|local|vector|||9.745||
+report|stem|377cc929874cc0ba|4eab930afb874996|a86301bfc8eae33f|787668912|report.html*report.Rmd|t20069.4098965055s|79298fc6abe3bfce|850856|file|local|vector|||34.258||
 ryukyu_archipelago|stem|46462c34131aea6b|62974780eebfdacb|2c530c1562a7fbd1|1975910770||t20069.0911321264s|10d2c1c8133423f4|1571|rds|local|vector|||10.295||
-save_map|stem|5e33e4f064a9ea8a|abdb3d00978bf86a|36a37f50d0f739bf|-1668319320|output/study_area.png|t20069.1710363869s|14694cc64f49c1a2|147598|file|local|vector|||3.608||
-save_study_area|stem|db53d06d22c866d8|51e9eb277238e7e5|0347f588d969781f|-146398387|data/output.gpkg|t20069.1706214858s|cf246076235b991e|98304|file|local|vector|||0.025||
-study_area|stem|3071e256f93ff79c|4ba856e512d49645|8f3955b0f08802aa|-822575283||t20069.1706209372s||2304|rds|local|vector|||0.013||No valid areas to aggregate.
-study_area_clip|stem|7fffc6e5812443c6|dd6faa839a6f2039|fa11b7aa7a645db9|-404717505||t20069.1706211518s|a34ad12d7422e6dd|2159|rds|local|vector|||0.006||
-study_area_map|stem|e9e0377e1733615a|58cfc00012ad3d4f|651b76ff83ea0acd|2001279192||t20069.1708737089s|1942024060f1b452|274631589|rds|local|vector|||0.012||
-taiwan|stem|3cf93f7f7ac0daf9|56387084c21e59e1|2c530c1562a7fbd1|-2121041077||t20069.2044200737s||22879|rds|local|vector|||8.169||The GeoObject Overlapping claim Paracel Islands Exclusive Economic Zone China  Taiwan  Vietnam 8329 has status DELETED. Use 25124 instead.
+save_map|stem|8de68b6c439a76a9|abdb3d00978bf86a|b12f8843499d89f1|-1668319320|output/study_area.png|t20069.4099398753s|a3c029dcdd8a3f14|294910|file|local|vector|||3.719||
+save_study_area|stem|00b1a044860e677c|51e9eb277238e7e5|46fe15c759ae8acf|-146398387|data/output.gpkg|t20069.40922814s|33af093d3a9c7c99|1581056|file|local|vector|||0.037||
+study_area|stem|b03a025177af9063|f258888b91a01dd1|5cd649ad1dc7a559|-822575283||t20069.4092232557s|d677e0cf7255b7be|1253280|rds|local|vector|||8.112||
+study_area_clip|stem|24bef551e3b9c7b8|dd6faa839a6f2039|5ed671c798e06ec9|-404717505||t20069.4092276974s|8e7d1c7d00591087|1194857|rds|local|vector|||0.302||
+study_area_map|stem|370a88f16eb6ef01|58cfc00012ad3d4f|8ca0603edf6ed779|2001279192||t20069.4094919122s|d980059a4bdf286f|281795599|rds|local|vector|||0.014||
+taiwan|stem|79b9192d0e7f9b31|79778b0f557dcc36|2c530c1562a7fbd1|-2121041077||t20069.3654178338s|9eaf2977b79ba041|342302|rds|local|vector|||23.878||

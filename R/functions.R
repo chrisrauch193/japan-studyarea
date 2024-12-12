@@ -2,12 +2,10 @@
 library(sf)
 library(dplyr)
 library(mregions2)
+library(lwgeom)
 
 # Helper function to transform and simplify geometries
 prepare_geom <- function(geom) {
-  print("WWJHWEJKW")
-  print(geom)
-  print("adjsalsdj")
   geom |>
     st_make_valid() |>
     st_transform(crs = st_crs(4326)) |>
@@ -66,8 +64,6 @@ mr_tidy <- function(res, source_name = NULL) {
     stop("The result from gaz_search does not contain a valid geometry.")
   }
   
-  print(geom)
-  
   # Add a source column if provided
   if (!is.null(source_name)) {
     geom$source <- source_name
@@ -96,7 +92,7 @@ aggregate_areas <- function(areas) {
   # Ensure all areas have the same CRS
   first_crs <- st_crs(valid_areas[[1]])
   valid_areas <- lapply(valid_areas, function(x) st_transform(x, first_crs))
-  
+
   # Prepare a list of data frames with a unified set of columns
   unified_areas <- lapply(valid_areas, function(area) {
     # Ensure the geometry is valid
@@ -109,6 +105,7 @@ aggregate_areas <- function(areas) {
         area[[col]] <- NA
       }
     }
+    
     # Select only the required columns
     area |>
       select(all_of(required_cols))
@@ -119,6 +116,8 @@ aggregate_areas <- function(areas) {
   
   # Unary union to dissolve overlapping boundaries
   study_area <- st_union(combined)
+  
+  study_area <- st_make_valid(study_area)
   
   # Simplify the geometry
   study_area <- st_simplify(study_area, dTolerance = 0.01)
