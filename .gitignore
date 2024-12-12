@@ -1,0 +1,13 @@
+.Rproj.user
+.Rhistory
+.RData
+.Ruserdata
+
+
+.DS_Store
+*.Rproj*
+
+_targets/
+output/
+data/
+
