@@ -182,13 +182,24 @@ list(
     }
   ),
   
-  # --- Save Study Area ---
+  # --- Save Study Area as GeoPackage ---
   tar_target(
-    name = save_study_area,
+    name = save_study_area_gpkg,
     command = {
       # Save study area as GeoPackage
       st_write(study_area_clip, "data/output.gpkg", driver = "GPKG", delete_dsn = TRUE)
       "data/output.gpkg"
+    },
+    format = "file"
+  ),
+  
+  # --- Save Study Area as Shapefile ---
+  tar_target(
+    name = save_study_area_shp,
+    command = {
+      # Save study area as Shapefile
+      st_write(study_area_clip, "data/output.shp", driver = "ESRI Shapefile", delete_dsn = TRUE)
+      "data/output.shp"
     },
     format = "file"
   ),
